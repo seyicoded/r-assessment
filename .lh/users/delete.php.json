@@ -1,0 +1,26 @@
+{
+    "sourceFile": "users/delete.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1645313892700,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1645314055209,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,8 +29,10 @@\n         \n         // declare variable\n         $id = strtolower($_REQUEST['id']);\n \n+        echo $id;\n+\n         \n     } catch (\\Throwable $th) {\n         //throw $th;\n         echo $return->json(false, $th->getMessage());\n"
+                },
+                {
+                    "date": 1645314772326,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,14 +25,28 @@\n         if(!isset($_REQUEST['id'])){\n             echo $return->json(false, 'id is required');\n             return ;\n         }\n+\n+        if(!isset($_REQUEST['email'])){\n+            echo $return->json(false, 'email is required');\n+            return ;\n+        }\n         \n         // declare variable\n         $id = strtolower($_REQUEST['id']);\n+        $email = strtolower($_REQUEST['email']);\n \n-        echo $id;\n+        // echo $id;\n \n+        if(mysqli_query($con, \"DELETE FROM users WHERE id = '$id' AND email = '$email'\")){\n+            echo $return->json(true, 'user account permanently deleted');\n+            return ;\n+        }else{\n+            echo $return->json(false, 'unable to further delete user account');\n+            return ;\n+        }\n+\n         \n     } catch (\\Throwable $th) {\n         //throw $th;\n         echo $return->json(false, $th->getMessage());\n"
+                }
+            ],
+            "date": 1645313892700,
+            "name": "Commit-0",
+            "content": "<?php\n    require '../config/DB_CONNECTION.php';\n    require '../config/JSON.php';\n    require '../config/AUTH_TOKEN.php';\n\n    // configure database\n    $config = new config();\n    $con = $config->database();\n\n    // configure response\n    $return = new returns();\n\n    // configure auth\n    $auth = new auth_token();\n\n    // verify if user is authorized to access route\n    if(!($auth->verify())){\n        echo $return->json(false, 'authorization code is invalid');\n        return ;\n    }\n\n    // validate for input entry\n    try {\n        // email checker\n        if(!isset($_REQUEST['id'])){\n            echo $return->json(false, 'id is required');\n            return ;\n        }\n        \n        // declare variable\n        $id = strtolower($_REQUEST['id']);\n\n        \n    } catch (\\Throwable $th) {\n        //throw $th;\n        echo $return->json(false, $th->getMessage());\n    }\n\n?>"
+        }
+    ]
+}
