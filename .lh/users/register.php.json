@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 6,
+            "activePatchIndex": 14,
             "patches": [
                 {
                     "date": 1645309028503,
@@ -32,6 +32,38 @@
                 {
                     "date": 1645309629837,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n     $auth = new auth_token();\n \n     // verify if user is authorized to access route\n     if(!($auth->verify())){\n-        $return->json(false, 'authorization code is invalid', []);\n+        echo $return->json(false, 'authorization code is invalid');\n         return ;\n     }\n \n ?>\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1645310115833,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,5 +18,13 @@\n         echo $return->json(false, 'authorization code is invalid');\n         return ;\n     }\n \n+    // validate for input entry\n+    try {\n+        //code...\n+    } catch (\\Throwable $th) {\n+        //throw $th;\n+        echo $return->json(false, $th->getMessage());\n+    }\n+\n ?>\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1645310445523,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,30 @@\n     }\n \n     // validate for input entry\n     try {\n-        //code...\n+        // email checker\n+        if(!isset($_REQUEST['email'])){\n+            echo $return->json(false, 'email is required');\n+            return ;\n+        }\n+\n+        // password checker\n+        if(!isset($_REQUEST['password'])){\n+            echo $return->json(false, 'password is required');\n+            return ;\n+        }else{\n+            if( strlen($_REQUEST['password']) < 6 ){\n+                echo $return->json(false, 'password is invalid');\n+                return ;\n+            }\n+        }\n+\n+        // currency checker\n+        if(!isset($_REQUEST['currency'])){\n+            echo $return->json(false, 'currency is required');\n+            return ;\n+        }\n     } catch (\\Throwable $th) {\n         //throw $th;\n         echo $return->json(false, $th->getMessage());\n     }\n"
+                },
+                {
+                    "date": 1645310527047,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,8 +42,14 @@\n         if(!isset($_REQUEST['currency'])){\n             echo $return->json(false, 'currency is required');\n             return ;\n         }\n+\n+        // check if email exist\n+        if((mysqli_num_rows(mysqli_query($con, \"SELECT * FROM users WHERE email = '$email'\"))) > 0){\n+            echo $return->json(false, 'email already exist');\n+            return ;\n+        }\n     } catch (\\Throwable $th) {\n         //throw $th;\n         echo $return->json(false, $th->getMessage());\n     }\n"
+                },
+                {
+                    "date": 1645310855299,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -43,13 +43,21 @@\n             echo $return->json(false, 'currency is required');\n             return ;\n         }\n \n+        // declare variable\n+        $email = $_REQUEST['email'];\n+        $password = $_REQUEST['password'];\n+        $currency = $_REQUEST['currency'];\n+\n         // check if email exist\n         if((mysqli_num_rows(mysqli_query($con, \"SELECT * FROM users WHERE email = '$email'\"))) > 0){\n             echo $return->json(false, 'email already exist');\n             return ;\n         }\n+\n+        // create account\n+        $sql = \"INSERT INTO users(email, password, currency) VALUES('$email', '', '')\";\n     } catch (\\Throwable $th) {\n         //throw $th;\n         echo $return->json(false, $th->getMessage());\n     }\n"
+                },
+                {
+                    "date": 1645311253856,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -44,10 +44,10 @@\n             return ;\n         }\n \n         // declare variable\n-        $email = $_REQUEST['email'];\n-        $password = $_REQUEST['password'];\n+        $email = strtolower($_REQUEST['email']);\n+        $password = sha1(strtolower($_REQUEST['password']));\n         $currency = $_REQUEST['currency'];\n \n         // check if email exist\n         if((mysqli_num_rows(mysqli_query($con, \"SELECT * FROM users WHERE email = '$email'\"))) > 0){\n@@ -55,9 +55,9 @@\n             return ;\n         }\n \n         // create account\n-        $sql = \"INSERT INTO users(email, password, currency) VALUES('$email', '', '')\";\n+        $sql = \"INSERT INTO users(email, password, currency) VALUES('$email', '$password', '')\";\n     } catch (\\Throwable $th) {\n         //throw $th;\n         echo $return->json(false, $th->getMessage());\n     }\n"
+                },
+                {
+                    "date": 1645311259517,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -55,9 +55,9 @@\n             return ;\n         }\n \n         // create account\n-        $sql = \"INSERT INTO users(email, password, currency) VALUES('$email', '$password', '')\";\n+        $sql = \"INSERT INTO users(email, password, currency) VALUES('$email', '$password', '$currency')\";\n     } catch (\\Throwable $th) {\n         //throw $th;\n         echo $return->json(false, $th->getMessage());\n     }\n"
+                },
+                {
+                    "date": 1645311355339,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -56,8 +56,14 @@\n         }\n \n         // create account\n         $sql = \"INSERT INTO users(email, password, currency) VALUES('$email', '$password', '$currency')\";\n+        if(mysqli_query($con, $sql)){\n+\n+        }else{\n+            echo $return->json(false, 'try again later, server in maintenance mode');\n+            return ;\n+        }\n     } catch (\\Throwable $th) {\n         //throw $th;\n         echo $return->json(false, $th->getMessage());\n     }\n"
+                },
+                {
+                    "date": 1645311496120,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -57,9 +57,11 @@\n \n         // create account\n         $sql = \"INSERT INTO users(email, password, currency) VALUES('$email', '$password', '$currency')\";\n         if(mysqli_query($con, $sql)){\n-\n+            $data = mysqli_fetch_assoc(mysqli_query($con, \"SELECT * FROM users WHERE email = '$email'\"));\n+            echo $return->json(true, 'user successfully registered', $data);\n+            return ;\n         }else{\n             echo $return->json(false, 'try again later, server in maintenance mode');\n             return ;\n         }\n"
                 }
             ],
             "date": 1645309028503,

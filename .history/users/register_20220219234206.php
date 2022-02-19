@@ -44,25 +44,9 @@
             return ;
         }
 
-        // declare variable
-        $email = strtolower($_REQUEST['email']);
-        $password = sha1(strtolower($_REQUEST['password']));
-        $currency = $_REQUEST['currency'];
-
         // check if email exist
         if((mysqli_num_rows(mysqli_query($con, "SELECT * FROM users WHERE email = '$email'"))) > 0){
             echo $return->json(false, 'email already exist');
-            return ;
-        }
-
-        // create account
-        $sql = "INSERT INTO users(email, password, currency) VALUES('$email', '$password', '$currency')";
-        if(mysqli_query($con, $sql)){
-            $data = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM users WHERE email = '$email'"));
-            echo $return->json(true, 'user successfully registered', $data);
-            return ;
-        }else{
-            echo $return->json(false, 'try again later, server in maintenance mode');
             return ;
         }
     } catch (\Throwable $th) {
