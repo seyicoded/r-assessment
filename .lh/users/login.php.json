@@ -1,0 +1,18 @@
+{
+    "sourceFile": "users/login.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1645312644712,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1645312644712,
+            "name": "Commit-0",
+            "content": "<?php\n    require '../config/DB_CONNECTION.php';\n    require '../config/JSON.php';\n    require '../config/AUTH_TOKEN.php';\n\n    // configure database\n    $config = new config();\n    $con = $config->database();\n\n    // configure response\n    $return = new returns();\n\n    // configure auth\n    $auth = new auth_token();\n\n    // verify if user is authorized to access route\n    if(!($auth->verify())){\n        echo $return->json(false, 'authorization code is invalid');\n        return ;\n    }\n\n    // validate for input entry\n    try {\n        // email checker\n        if(!isset($_REQUEST['email'])){\n            echo $return->json(false, 'email is required');\n            return ;\n        }\n\n        // password checker\n        if(!isset($_REQUEST['password'])){\n            echo $return->json(false, 'password is required');\n            return ;\n        }else{\n            if( strlen($_REQUEST['password']) < 6 ){\n                echo $return->json(false, 'password is invalid');\n                return ;\n            }\n        }\n\n        \n        // declare variable\n        $email = strtolower($_REQUEST['email']);\n        $password = sha1(strtolower($_REQUEST['password']));\n\n        // check if email exist\n        $data = mysqli_query($con, \"SELECT * FROM users WHERE email = '$email' AND password = '$password'\");\n        if((mysqli_num_rows($data)) > 0){\n            echo $return->json(true, 'login successfully', $data);\n            return ;\n        }else{\n            echo $return->json(false, 'user not found');\n            return ;\n        }\n\n        \n    } catch (\\Throwable $th) {\n        //throw $th;\n        echo $return->json(false, $th->getMessage());\n    }\n\n?>"
+        }
+    ]
+}
