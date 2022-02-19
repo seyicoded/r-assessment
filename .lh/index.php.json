@@ -1,0 +1,26 @@
+{
+    "sourceFile": "index.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1645305424000,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1645306092131,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,21 @@\n <?php \n     // just simple auth\n     require './config/DB_CONNECTION.php';\n+    require './config/JSON.php';\n+    // configure database\n     $config = new config();\n     $con = $config->database();\n \n-    echo mysqli_num_rows(mysqli_query($con, \"SELECT * FROM users\"));\n+    // configure response\n+    $return = new returns();\n+\n+    try {\n+        //code...\n+        $num = mysqli_num_rows(mysqli_query($con, \"SELECT * FROM users\"));\n+        return $return->json(true, 'connection successfully established', ['total users' => $num]);\n+    } catch (\\Throwable $th) {\n+        //throw $th;\n+        return $return->json(true, 'an error occurred', ['error' => $th->getMessage()]);\n+        \n+    }\n ?>\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1645306944826,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,11 +11,13 @@\n \n     try {\n         //code...\n         $num = mysqli_num_rows(mysqli_query($con, \"SELECT * FROM users\"));\n-        return $return->json(true, 'connection successfully established', ['total users' => $num]);\n+        echo $return->json(true, 'connection successfully established', ['total users' => $num]);\n+        return ;\n     } catch (\\Throwable $th) {\n         //throw $th;\n-        return $return->json(true, 'an error occurred', ['error' => $th->getMessage()]);\n+        echo $return->json(true, 'an error occurred', ['error' => $th->getMessage()]);\n+        return ;\n         \n     }\n ?>\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1645305424000,
+            "name": "Commit-0",
+            "content": "<?php \n    // just simple auth\n    require './config/DB_CONNECTION.php';\n    $config = new config();\n    $con = $config->database();\n\n    echo mysqli_num_rows(mysqli_query($con, \"SELECT * FROM users\"));\n?>"
+        }
+    ]
+}

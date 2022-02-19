@@ -12,12 +12,10 @@
     try {
         //code...
         $num = mysqli_num_rows(mysqli_query($con, "SELECT * FROM users"));
-        echo $return->json(true, 'connection successfully established', ['total users' => $num]);
-        return ;
+        return $return->json(true, 'connection successfully established', ['total users' => $num]);
     } catch (\Throwable $th) {
         //throw $th;
-        echo $return->json(true, 'an error occurred', ['error' => $th->getMessage()]);
-        return ;
+        return $return->json(true, 'an error occurred', ['error' => $th->getMessage()]);
         
     }
 ?>

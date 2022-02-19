@@ -1,0 +1,30 @@
+{
+    "sourceFile": "config/DB_CONNECTION.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 3,
+            "patches": [
+                {
+                    "date": 1645304965756,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1645305376779,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,3 +1,14 @@\n <?php\n     // mysql://b67c152aeaac5f:83f37c56@us-cdbr-east-05.cleardb.net/heroku_9df67b0d10f3a8d?reconnect=true\n+    class config{\n+        public static $DB_HOST = 'localhost';\n+        public static $DB_USERNAME = 'lumigrm_custom';\n+        public static $DB_PASSWORD = 'Welcome1$$$$';\n+        public static $DB_DATABASE = 'lumigrm_wp606';\n+        public static $DB_PORT = 'localhost';\n+        \n+        public function database(){\n+            return ( mysqli_connect(self::$DB_HOST, self::$DB_USERNAME, self::$DB_PASSWORD, self::$DB_DATABASE));\n+        }\n+    }\n ?>\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1645305457635,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,12 +1,12 @@\n <?php\n     // mysql://b67c152aeaac5f:83f37c56@us-cdbr-east-05.cleardb.net/heroku_9df67b0d10f3a8d?reconnect=true\n     class config{\n-        public static $DB_HOST = 'localhost';\n-        public static $DB_USERNAME = 'lumigrm_custom';\n-        public static $DB_PASSWORD = 'Welcome1$$$$';\n-        public static $DB_DATABASE = 'lumigrm_wp606';\n-        public static $DB_PORT = 'localhost';\n+        public static $DB_HOST = 'us-cdbr-east-05.cleardb.net';\n+        public static $DB_USERNAME = 'b67c152aeaac5f';\n+        public static $DB_PASSWORD = '83f37c56$$$$';\n+        public static $DB_DATABASE = 'heroku_9df67b0d10f3a8d';\n+        public static $DB_PORT = '3306';\n         \n         public function database(){\n             return ( mysqli_connect(self::$DB_HOST, self::$DB_USERNAME, self::$DB_PASSWORD, self::$DB_DATABASE));\n         }\n"
+                },
+                {
+                    "date": 1645305683934,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n     // mysql://b67c152aeaac5f:83f37c56@us-cdbr-east-05.cleardb.net/heroku_9df67b0d10f3a8d?reconnect=true\n     class config{\n         public static $DB_HOST = 'us-cdbr-east-05.cleardb.net';\n         public static $DB_USERNAME = 'b67c152aeaac5f';\n-        public static $DB_PASSWORD = '83f37c56$$$$';\n+        public static $DB_PASSWORD = '83f37c56';\n         public static $DB_DATABASE = 'heroku_9df67b0d10f3a8d';\n         public static $DB_PORT = '3306';\n         \n         public function database(){\n"
+                }
+            ],
+            "date": 1645304965756,
+            "name": "Commit-0",
+            "content": "<?php\n    // mysql://b67c152aeaac5f:83f37c56@us-cdbr-east-05.cleardb.net/heroku_9df67b0d10f3a8d?reconnect=true\n?>"
+        }
+    ]
+}
