@@ -1,0 +1,38 @@
+{
+    "sourceFile": "config/AUTH_TOKEN.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 5,
+            "patches": [
+                {
+                    "date": 1645308857568,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1645309215113,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -35,9 +35,9 @@\n     }\n         \n         public function verify(){\n             $token = self::getBearerToken();\n-            if($token == 'NjlkH8124wers90NOI09niO000N'){\n+            if($token === 'NjlkH8124wers90NOI09niO000N'){\n                 return true;\n             }else{\n                 return false;\n             }\n"
+                },
+                {
+                    "date": 1645309246103,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,9 +36,9 @@\n         \n         public function verify(){\n             $token = self::getBearerToken();\n             if($token === 'NjlkH8124wers90NOI09niO000N'){\n-                return true;\n+                return $token;\n             }else{\n                 return false;\n             }\n         }\n"
+                },
+                {
+                    "date": 1645309372733,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,9 +36,9 @@\n         \n         public function verify(){\n             $token = self::getBearerToken();\n             if($token === 'NjlkH8124wers90NOI09niO000N'){\n-                return $token;\n+                return $token.'aaa';\n             }else{\n                 return false;\n             }\n         }\n"
+                },
+                {
+                    "date": 1645309406294,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -38,9 +38,9 @@\n             $token = self::getBearerToken();\n             if($token === 'NjlkH8124wers90NOI09niO000N'){\n                 return $token.'aaa';\n             }else{\n-                return false;\n+                return ''.'bbb';\n             }\n         }\n     }\n ?>\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1645309549075,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,11 +36,11 @@\n         \n         public function verify(){\n             $token = self::getBearerToken();\n             if($token === 'NjlkH8124wers90NOI09niO000N'){\n-                return $token.'aaa';\n+                return true;\n             }else{\n-                return ''.'bbb';\n+                return false;\n             }\n         }\n     }\n ?>\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1645308857567,
+            "name": "Commit-0",
+            "content": "<?php\n    // mysql://b67c152aeaac5f:83f37c56@us-cdbr-east-05.cleardb.net/heroku_9df67b0d10f3a8d?reconnect=true\n    class auth_token{\n\n        public function getAuthorizationHeader(){\n            $headers = null;\n            if (isset($_SERVER['Authorization'])) {\n                $headers = trim($_SERVER[\"Authorization\"]);\n            }\n            else if (isset($_SERVER['HTTP_AUTHORIZATION'])) { //Nginx or fast CGI\n                $headers = trim($_SERVER[\"HTTP_AUTHORIZATION\"]);\n            } elseif (function_exists('apache_request_headers')) {\n                $requestHeaders = apache_request_headers();\n                // Server-side fix for bug in old Android versions (a nice side-effect of this fix means we don't care about capitalization for Authorization)\n                $requestHeaders = array_combine(array_map('ucwords', array_keys($requestHeaders)), array_values($requestHeaders));\n                //print_r($requestHeaders);\n                if (isset($requestHeaders['Authorization'])) {\n                    $headers = trim($requestHeaders['Authorization']);\n                }\n            }\n            return $headers;\n        }\n    /**\n     * get access token from header\n     * */\n    public function getBearerToken() {\n        $headers = self::getAuthorizationHeader();\n        // HEADER: Get the access token from the header\n        if (!empty($headers)) {\n            if (preg_match('/Bearer\\s(\\S+)/', $headers, $matches)) {\n                return $matches[1];\n            }\n        }\n        return null;\n    }\n        \n        public function verify(){\n            $token = self::getBearerToken();\n            if($token == 'NjlkH8124wers90NOI09niO000N'){\n                return true;\n            }else{\n                return false;\n            }\n        }\n    }\n?>"
+        }
+    ]
+}

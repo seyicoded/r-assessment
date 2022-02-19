@@ -1,0 +1,42 @@
+{
+    "sourceFile": "users/register.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 6,
+            "patches": [
+                {
+                    "date": 1645309028503,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1645309189139,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,21 @@\n <?php\n     require '../config/DB_CONNECTION.php';\n     require '../config/JSON.php';\n     require '../config/AUTH_TOKEN.php';\n+\n+    // configure database\n+    $config = new config();\n+    $con = $config->database();\n+\n+    // configure response\n+    $return = new returns();\n+\n+    // configure auth\n+    $auth = new auth_token();\n+\n+    // verify if user is authorized to access route\n+    if(!($auth->verify())){\n+        $return->json(false, 'authorization code is invalid', []);\n+    }\n+\n ?>\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1645309256349,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,8 +13,9 @@\n     // configure auth\n     $auth = new auth_token();\n \n     // verify if user is authorized to access route\n+    echo $auth->verify();\n     if(!($auth->verify())){\n         $return->json(false, 'authorization code is invalid', []);\n     }\n \n"
+                },
+                {
+                    "date": 1645309270887,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n     // configure auth\n     $auth = new auth_token();\n \n     // verify if user is authorized to access route\n-    echo $auth->verify();\n+    echo $auth->verify().'nnn';\n     if(!($auth->verify())){\n         $return->json(false, 'authorization code is invalid', []);\n     }\n \n"
+                },
+                {
+                    "date": 1645309571334,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n     // configure auth\n     $auth = new auth_token();\n \n     // verify if user is authorized to access route\n-    echo $auth->verify().'nnn';\n+    echo ($auth->verify()) ? 'true':'false';\n     if(!($auth->verify())){\n         $return->json(false, 'authorization code is invalid', []);\n     }\n \n"
+                },
+                {
+                    "date": 1645309588310,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,10 +13,10 @@\n     // configure auth\n     $auth = new auth_token();\n \n     // verify if user is authorized to access route\n-    echo ($auth->verify()) ? 'true':'false';\n     if(!($auth->verify())){\n         $return->json(false, 'authorization code is invalid', []);\n+        return ;\n     }\n \n ?>\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1645309629837,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n     $auth = new auth_token();\n \n     // verify if user is authorized to access route\n     if(!($auth->verify())){\n-        $return->json(false, 'authorization code is invalid', []);\n+        echo $return->json(false, 'authorization code is invalid');\n         return ;\n     }\n \n ?>\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1645309028503,
+            "name": "Commit-0",
+            "content": "<?php\n    require '../config/DB_CONNECTION.php';\n    require '../config/JSON.php';\n    require '../config/AUTH_TOKEN.php';\n?>"
+        }
+    ]
+}

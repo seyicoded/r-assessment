@@ -3,11 +3,15 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 1,
             "patches": [
                 {
                     "date": 1645305876871,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1645309625610,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n <?php\n     // mysql://b67c152aeaac5f:83f37c56@us-cdbr-east-05.cleardb.net/heroku_9df67b0d10f3a8d?reconnect=true\n     class returns{\n         \n-        public function json($status, $message,$data){\n+        public function json($status, $message,$data = null){\n             return json_encode(\n                 [\n                     'status' => $status,\n                     'message' => $message,\n"
                 }
             ],
             "date": 1645305876871,
